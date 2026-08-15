@@ -52,9 +52,7 @@ export function openDatabase(dbPath: string): Database.Database {
   if (!cols.some((c) => c.name === "user_id")) {
     db.exec("ALTER TABLE links ADD COLUMN user_id INTEGER REFERENCES users(id) ON DELETE SET NULL");
   }
-  db.exec(
-    "CREATE INDEX IF NOT EXISTS links_user ON links (user_id) WHERE user_id IS NOT NULL",
-  );
+  db.exec("CREATE INDEX IF NOT EXISTS links_user ON links (user_id) WHERE user_id IS NOT NULL");
   return db;
 }
 
