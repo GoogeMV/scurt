@@ -29,7 +29,12 @@ jobs:
         run: docker build -t scurt:ci .
       - name: Smoke test
         run: |
-          docker run -d --rm -p 8080:8080 --name scurt scurt:ci
+          # The app refuses to boot without these, by design — there are no
+          # built-in defaults. Throwaway values, only for this smoke test.
+          docker run -d --rm -p 8080:8080 --name scurt \
+            -e JWT_SECRET="$(openssl rand -hex 32)" \
+            -e PASSWORD_PEPPER="$(openssl rand -hex 32)" \
+            scurt:ci
           for i in $(seq 1 20); do
             curl -fsS http://localhost:8080/healthz && break
             sleep 0.5
