@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="ro">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>scurt — URL shortener</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <main id="app">
+    <header class="topbar">
+      <div>
+        <h1>scurt</h1>
+        <p class="subtitle">un URL shortener făcut ca la carte</p>
+      </div>
+      <div id="account" class="row" hidden>
+        <span id="who" class="muted"></span>
+        <button id="logout-btn" class="secondary">Ieși din cont</button>
+      </div>
+    </header>
+
+    <section class="card">
+      <h2>Scurtează un link</h2>
+      <form id="shorten-form">
+        <label>URL
+          <input id="url-input" type="url" placeholder="https://exemplu.ro/o/cale/foarte/lunga" required />
+        </label>
+        <div class="row">
+          <label class="grow">Slug custom (opțional)
+            <input id="slug-input" type="text" placeholder="ex. cv-2026" />
+          </label>
+          <label class="grow">Expiră în (opțional)
+            <select id="ttl-input">
+              <option value="">niciodată</option>
+              <option value="3600">1 oră</option>
+              <option value="86400">1 zi</option>
+              <option value="604800">7 zile</option>
+            </select>
+          </label>
+        </div>
+        <button type="submit">Scurtează</button>
+      </form>
+      <div id="shorten-result" hidden></div>
+      <p id="shorten-error" class="error" hidden></p>
+      <p id="anon-note" class="muted small">
+        Nu ești logat — link-ul va fi anonim. Autentifică-te ca să-ți poți vedea și gestiona link-urile.
+      </p>
+    </section>
+
+    <section class="card" id="auth-card">
+      <div class="tabs">
+        <button id="tab-login" class="tab active" type="button">Autentificare</button>
+        <button id="tab-register" class="tab" type="button">Cont nou</button>
+      </div>
+      <form id="auth-form">
+        <label>Email
+          <input id="email-input" type="email" required autocomplete="username" />
+        </label>
+        <label>Parolă
+          <input id="password-input" type="password" minlength="10" required autocomplete="current-password" />
+          <span class="muted small">minim 10 caractere</span>
+        </label>
+        <button type="submit" id="auth-submit">Intră în cont</button>
+      </form>
+      <p id="auth-error" class="error" hidden></p>
+    </section>
+
+    <section class="card" id="links-card" hidden>
+      <h2>Link-urile mele</h2>
+      <div id="links-empty" class="muted" hidden>Niciun link încă. Scurtează unul mai sus.</div>
+      <div id="links-table-wrap" class="table-wrap" hidden>
+        <table>
+          <thead>
+            <tr><th>Scurt</th><th>Destinație</th><th class="num">Click-uri</th><th></th></tr>
+          </thead>
+          <tbody id="links-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>
